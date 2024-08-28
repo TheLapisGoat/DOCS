@@ -1,0 +1,17 @@
+# started on Tue Aug 27 21:50:12 2024
+
+
+ Performance counter stats for './nogc':
+
+         10,84,735      branch-misses:u                                                       
+            16,263      page-faults:u                                                         
+          2,39,520      cache-misses:u                                                        
+      93,61,45,629      instructions:u                   #    2.47  insn per cycle            
+      37,96,17,557      cycles:u                                                              
+
+       0.155929055 seconds time elapsed
+
+       0.107927000 seconds user
+       0.047205000 seconds sys
+
+

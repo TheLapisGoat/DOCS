@@ -1,0 +1,17 @@
+# started on Tue Aug 27 21:44:40 2024
+
+
+ Performance counter stats for './incremental':
+
+         21,17,569      branch-misses:u                                                       
+            16,517      page-faults:u                                                         
+       1,21,95,867      cache-misses:u                                                        
+    2,28,55,95,701      instructions:u                   #    1.23  insn per cycle            
+    1,85,75,09,902      cycles:u                                                              
+
+       0.584459616 seconds time elapsed
+
+       0.537913000 seconds user
+       0.043102000 seconds sys
+
+

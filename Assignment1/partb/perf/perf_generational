@@ -1,0 +1,17 @@
+# started on Tue Aug 27 21:50:02 2024
+
+
+ Performance counter stats for './generational':
+
+         22,77,231      branch-misses:u                                                       
+            14,886      page-faults:u                                                         
+       1,34,95,368      cache-misses:u                                                        
+    2,25,12,73,231      instructions:u                   #    1.08  insn per cycle            
+    2,07,99,62,826      cycles:u                                                              
+
+       0.673710287 seconds time elapsed
+
+       0.620155000 seconds user
+       0.039586000 seconds sys
+
+
