@@ -1,0 +1,106 @@
+			+-----------------------+
+			|         CS60203       |
+			| Assignment 2: THREADS |
+			|     DESIGN DOCUMENT   |
+			+-----------------------+
+				   
+---- GROUP ----
+Sourodeep Datta sourodeepdatta@gmail.com
+
+---- PRELIMINARIES ----
+I had to implement basic priority scheduling in order for the wakeup thread to have max priority.
+			     ALARM CLOCK
+			     ===========
+
+---- DATA STRUCTURES ----
+
+>> A1: Copy here the declaration of each new or changed `struct' or
+>> `struct' member, global or static variable, `typedef', or
+>> enumeration.  Identify the purpose of each in 25 words or less.
+
+struct thread {
+    /* Existing members. */
+
+    int64_t wakeup_time;
+};
+Stores the time at which the thread should be woken up in terms of ticks.
+
+static struct list sleep_list;
+List to store the threads which are sleeping.
+
+static struct lock sleep_lock;
+Lock to synchronize access to the sleep_list.
+
+static struct semaphore timer_sema;
+Semaphore for wakeup thread to wait on.
+
+static struct thread *wakeup_thread;
+Thread to wake up the sleeping threads.
+
+---- ALGORITHMS ----
+>> A2: Briefly describe what happens in a call to timer_sleep(),
+>> including the effects of the timer interrupt handler.
+
+A2: When a thread calls timer_sleep(), the thread updates the wakeup_time of the thread to the current ticks + the time to sleep.
+It then adds acquires a lock on the sleep_list and adds itself to the sleep_list. It then releases the lock and blocks itself.
+
+When the timer interrupt handler is called, it increments the ticks variable and checks if any thread in the sleep_list has to
+be woken up. If the wakeup_time of the thread at the front of the sleep_list is less than the current ticks, the wakeup thread
+is unblocked.
+
+>> A3: What steps are taken to minimize the amount of time spent in
+>> the timer interrupt handler?
+A3: The timer interrupt handler does not do much work. It only increments the ticks variable and checks if any thread in the
+sleep_list has to be woken up (due to the list being sorted, it only needs to check the front of the list). If a thread has to be
+woken up, it unblocks the wakeup thread. This minimizes the amount of time spent in the timer interrupt handler.
+
+---- SYNCHRONIZATION ----
+>> A4: How are race conditions avoided when multiple threads call
+>> timer_sleep() simultaneously?
+
+A4: As mentioned in the PintOS documentation, "at any given time, exactly one thread runs and the rest, if any, become inactive".
+Thus by keeping a lock on the sleep_list, only one thread can access the sleep_list at a time. This ensures that only one thread
+can access the critical section at a time. 
+
+>> A5: How are race conditions avoided when a timer interrupt occurs
+>> during a call to timer_sleep()?
+
+A5: The timer interrupt only reads the front of the list, so it does not need to acquire the lock. As no other thread can be running
+while the timer interrupt is running, there is no possibility of a race condition. As it makes no modification to the sleep_list, it
+does not cause a race condition with timer_sleep().
+
+---- RATIONALE ----
+>> A6: Why did you choose this design?  In what ways is it superior to
+>> another design you considered?
+
+A6: The design is okay in the sense that the time spent in the timer interrupt handler is minimized.
+
+			   SURVEY QUESTIONS
+			   ================
+
+Answering these questions is optional, but it will help us improve the
+course in future quarters.  Feel free to tell us anything you
+want--these questions are just to spur your thoughts.  You may also
+choose to respond anonymously in the course evaluations at the end of
+the quarter.
+
+>> In your opinion, was this assignment, or any one of the three problems
+>> in it, too easy or too hard?  Did it take too long or too little time?
+It was fairly straightforward and took a reasonable amount of time.
+
+
+>> Did you find that working on a particular part of the assignment gave
+>> you greater insight into some aspect of OS design?
+Yes, working on the timer_interrupt handler along with the logic to block threads gave me a better understanding of OS design
+
+>> Is there some particular fact or hint we should give students in
+>> future quarters to help them solve the problems?  Conversely, did you
+>> find any of our guidance to be misleading?
+No
+
+>> Do you have any suggestions for the TAs to more effectively assist
+>> students, either for future quarters or the remaining projects?
+No
+
+>> Any other comments?
+No
