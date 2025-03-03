@@ -85,4 +85,4 @@ To generate the Doxygen documentation:
 make doxygen
 ```
 
-This This will generate the documentation in the `latex` directory and then compile it into a PDF using LaTeX.
+This will generate the documentation in the `latex` directory and then compile it into a PDF using LaTeX.
